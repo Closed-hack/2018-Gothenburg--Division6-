@@ -7,7 +7,7 @@ const routes: Routes = [
         path: '',
         component: SearchComponent,
         pathMatch: 'full'
-    },
+    }
 ];
 @NgModule({
     imports: [RouterModule.forChild(routes)],

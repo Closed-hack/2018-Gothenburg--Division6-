@@ -180,6 +180,8 @@ export class SearchComponent implements OnInit {
   }
 
   select(data) {
+    this.view = [];
+    this.single = this.single.concat(this.single);
     console.log('Item clicked', data);
   }
 

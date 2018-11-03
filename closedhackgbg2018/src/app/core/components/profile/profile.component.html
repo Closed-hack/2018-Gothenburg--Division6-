@@ -1,5 +1,7 @@
 <mat-drawer-container style="height:100%;" [hasBackdrop]="false">
-  <mat-drawer #drawer mode="side" style="width:450px;">I'm a drawer</mat-drawer>
+  <mat-drawer #drawer mode="side" style="width:450px;">
+    <app-user-profile></app-user-profile>
+  </mat-drawer>
   <mat-drawer-content>
     <router-outlet></router-outlet>
 

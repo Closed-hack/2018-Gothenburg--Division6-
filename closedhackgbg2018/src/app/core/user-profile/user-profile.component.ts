@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../Services/data.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -7,24 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserProfileComponent implements OnInit {
 
-  skills: SkillModel[] = [{ name: 'Brave', category: 1 }];
-  constructor() { }
+  skills: SkillModel[] = [{ field: 'Chefer och verksamhetsledare', skill: Skill.CriticalThinking },
+  { field: 'Chefer och verksamhetsledare', skill: Skill.Organized }];
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
   }
 
-  onClick(x: string) {
-    console.log(x);
+  onClick(x: SkillModel) {
+    this.dataService.setSkill(x);
   }
 
 }
 
 export interface SkillModel {
-  name: string;
-  category: Category;
+  field: string;
+  skill: Skill;
 }
 
-export enum Category {
-  IT,
-  Managment
+export enum Skill {
+  CriticalThinking = 'Critical Thinking',
+  Organized = 'Organized'
 }

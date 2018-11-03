@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { DataService } from 'src/app/core/Services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -7,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
+  @ViewChild('aligner') aligner;
   view: any[];
   width: number;
   height: number;
@@ -163,26 +166,75 @@ export class SearchComponent implements OnInit {
       value: 35800
     }
   ];
-  constructor() {
-    this.width = 700;
-    this.height = 300;
+  fieldsData = [];
+  professionData = [];
+  jobs = [];
+  subscription: Subscription;
+  constructor(private dataService: DataService) {
+    this.width = 800;
+    this.height = 600;
     this.fitContainer = true;
     this.animations = true;
     this.colorScheme = this.colorSets[11];
   }
 
   ngOnInit() {
+    this.subscription = this.dataService.getMessage().subscribe(data => {
+      this.dataService.getFields().subscribe(x => {
+        this.fieldsData = x;
+        console.log(x);
+        this.single = x.map(d => {
+          return { name: d.namn, value: Math.random() };
+        });
+      });
+    });
+
+    this.dataService.getFields().subscribe(x => {
+      this.fieldsData = x;
+      console.log(x);
+      this.single = x.map(d => {
+        return { name: d.namn, value: Math.random() };
+      });
+    });
+    // this.dataService.getProfession().subscribe(x => { this.professionData = x; console.log(x); });
+    // this.dataService.getJobPostings().subscribe(x => { this.jobs = x; console.log(x); });
+
     this.view = [this.width, this.height];
   }
 
   onLegendLabelClick(entry) {
-    console.log('Legend clicked', entry);
+
   }
 
   select(data) {
-    this.view = [];
-    this.single = this.single.concat(this.single);
     console.log('Item clicked', data);
+    if (this.fieldsData.length > 0) {
+      const index = this.fieldsData.findIndex(x => x.namn === data.name);
+      console.log(this.fieldsData);
+      if (index >= 0) {
+        this.dataService.getProfession(this.fieldsData[index].id).subscribe(x => {
+          this.professionData = x; console.log(x); this.fieldsData = []; this.single = x.map(d => {
+            return { name: d.namn, value: Math.random() };
+          });
+        });
+      }
+      console.log('Legend clicked', data);
+    } else if (this.professionData.length > 0) {
+      const index = this.professionData.findIndex(x => x.namn === data.name);
+      console.log(this.professionData[index].id);
+      if (index >= 0) {
+        this.dataService.getJobPostings(this.professionData[index].id).subscribe(x => {
+          if (x) {
+            this.jobs = x; console.log(x); this.professionData = []; this.single = x.map(d => {
+              return { name: d.annonsurl, value: Math.random() };
+            });
+          } else {
+            this.jobs = [{ name: 'https://www.arbetsformedlingen.se/Tjanster/Arbetssokande/Platsbanken/annonser/8003200', value: 100 }];
+          }
+        });
+      }
+    } else if (this.jobs.length > 0) {
+      window.location.href = data.name;
+    }
   }
-
 }

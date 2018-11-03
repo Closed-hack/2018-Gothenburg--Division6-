@@ -10,6 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { DataService } from './Services/data.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -20,9 +22,11 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     MatSidenavModule,
     MatFormFieldModule,
     MatSelectModule,
+    HttpClientModule,
     MatButtonModule
   ],
   declarations: [ProfileComponent, UserProfileComponent],
+  providers: [DataService],
   exports: [
     RouterModule,
     ProfileComponent

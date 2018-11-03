@@ -1,3 +1,5 @@
-<div *ngFor="let x of skills">
-  <button mat-button (click)="onClick(x)">{{x.name}}</button>
+<div class="flex-container">
+  <div *ngFor="let x of skills">
+    <button style="margin: 15px; width: 100px;height: 100px;" mat-fab color="primary" (click)="onClick(x)">{{x.skill}}</button>
+  </div>
 </div>

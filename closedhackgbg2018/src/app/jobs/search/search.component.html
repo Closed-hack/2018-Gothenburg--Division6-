@@ -1,6 +1,7 @@
-<div class="Aligner">
-
-  <ngx-charts-pie-grid class="Aligner-item" [view]="view" [scheme]="colorScheme" (legendLabelClick)="onLegendLabelClick($event)"
-    [results]="single" [animations]="animations" (select)="select($event)">
-  </ngx-charts-pie-grid>
+<div class="Aligner" #aligner>
+  <div class="Aligner-item" (click)="select">
+    <ngx-charts-pie-grid [view]="view" [scheme]="colorScheme" (legendLabelClick)="onLegendLabelClick($event)" [results]="single"
+      [tooltipDisabled]="false" [animations]="animations" (select)="select($event)">
+    </ngx-charts-pie-grid>
+  </div>
 </div>
